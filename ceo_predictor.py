@@ -84,7 +84,7 @@ if selected == translate("Predictor"):
     user_data['آخر مؤهل'] = st.selectbox(translate('Highest Qualification'), options=data['آخر مؤهل'].unique())
     user_data['السنوات قبل التعيين'] = st.slider(translate('Years Before Appointment'), min_value=1, max_value=30, value=int(data['السنوات قبل التعيين'].mean()))
     user_data['السنوات قبل التعيين في نفس الجهة'] = st.slider(translate('Years Before Appointment in the Same Entity'), min_value=1, max_value=30, value=int(data['السنوات قبل التعيين في نفس الجهة'].mean()))
-    user_data['النوع'] = st.selectbox(translate('Gender'), options=data['النوع'].unique())
+    user_data['النوع'] = st.selectbox(translate('Organization Type'), options=data['النوع'].unique())
     user_data['القطاع'] = st.selectbox(translate('Sector'), options=list(data['القطاع'].unique()) + [translate('Others')])
     user_data['اول تعيين له كرئيس تنفيذي؟'] = st.selectbox(translate('First Appointment as CEO?'), options=data['اول تعيين له كرئيس تنفيذي؟'].unique())
     user_data['اول جهة يعمل بها'] = st.selectbox(translate('First Organization'), options=list(data['اول جهة يعمل بها'].unique()) + [translate('Others')])
@@ -156,7 +156,7 @@ if selected == translate("Predictor"):
             <p>{years_before_appointment_same_entity_match / total_ceos * 100:.2f}%</p>
         </div>
         <div class="insight-card">
-            <h3>{translate('Gender')}</h3>
+            <h3>{translate('Organization Type')}</h3>
             <p>{gender_match / total_ceos * 100:.2f}%</p>
         </div>
         <div class="insight-card">
@@ -229,7 +229,7 @@ elif  selected == "Best Scenario" or selected == "أفضل سيناريو":
         <p>{best_scenario['السنوات قبل التعيين في نفس الجهة']}</p>
     </div>
     <div class="best-scenario-card">
-        <h3>{translate('Gender')}</h3>
+        <h3>{translate('Organization Type')}</h3>
         <p>{best_scenario['النوع']}</p>
     </div>
     <div class="best-scenario-card">
@@ -257,13 +257,13 @@ elif selected == "Overview" or selected == "نظرة عامة":
     color = '#FF6347'  # Red color
     
     st.write("#### " + translate('Distribution of Majors'))
-    fig1 = px.histogram(data, x='التخصص', color_discrete_sequence=[color], histnorm='percent')
+    fig1 = px.histogram(data, y='التخصص', color_discrete_sequence=[color], histnorm='percent')
     fig1.update_yaxes(title=translate('Percentage'))
     fig1.update_traces(texttemplate='%{y:.2f}%', textposition='outside')
     st.plotly_chart(fig1)
     
     st.write("#### " + translate('Distribution of Universities'))
-    fig2 = px.histogram(data, x='الجامعة', color_discrete_sequence=[color], histnorm='percent')
+    fig2 = px.histogram(data, y='الجامعة', color_discrete_sequence=[color], histnorm='percent')
     fig2.update_yaxes(title=translate('Percentage'))
     fig2.update_traces(texttemplate='%{y:.2f}%', textposition='outside')
     st.plotly_chart(fig2)
@@ -297,23 +297,23 @@ elif selected == "Overview" or selected == "نظرة عامة":
     st.plotly_chart(fig7)
 
     st.write("#### " + translate('Distribution of Sectors'))
-    fig_sector = px.histogram(data, x='القطاع', color_discrete_sequence=[color], histnorm='percent')
+    fig_sector = px.histogram(data, y='القطاع', color_discrete_sequence=[color], histnorm='percent')
     fig_sector.update_yaxes(title=translate('Percentage'))
     fig_sector.update_traces(texttemplate='%{y:.2f}%', textposition='outside')
     st.plotly_chart(fig_sector)
 
-    st.write("#### " + translate('Distribution of Gender'))
+    st.write("#### " + translate('Distribution of Organization Type'))
     fig8 = px.pie(data, names='النوع', hole=.4, color_discrete_sequence=[color, '#E5ECF6'])
     st.plotly_chart(fig8)
 
     st.write("#### " + translate('Distribution of First Organization'))
-    fig_first_org = px.histogram(data, x='اول جهة يعمل بها', color_discrete_sequence=[color], histnorm='percent')
+    fig_first_org = px.histogram(data, y='اول جهة يعمل بها', color_discrete_sequence=[color], histnorm='percent')
     fig_first_org.update_yaxes(title=translate('Percentage'))
     fig_first_org.update_traces(texttemplate='%{y:.2f}%', textposition='outside')
     st.plotly_chart(fig_first_org)
 
     st.write("#### " + translate('Distribution of Longest Duration in an Organization'))
-    fig_longest_org = px.histogram(data, x='أطول مدة جهة يعمل بها', color_discrete_sequence=[color], histnorm='percent')
+    fig_longest_org = px.histogram(data, y='أطول مدة جهة يعمل بها', color_discrete_sequence=[color], histnorm='percent')
     fig_longest_org.update_yaxes(title=translate('Percentage'))
     fig_longest_org.update_traces(texttemplate='%{y:.2f}%', textposition='outside')
     st.plotly_chart(fig_longest_org)
