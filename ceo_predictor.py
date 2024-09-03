@@ -23,13 +23,21 @@ def translate(key):
 
 # Function to calculate the percentage chance of becoming a CEO
 def calculate_ceo_chance(user_data, dataset):
-    filtered_data = dataset.copy()
+    chances = []
     for key, value in user_data.items():
-        filtered_data = filtered_data[filtered_data[key] == value]
-    total_ceos = len(dataset)
-    match_ceos = len(filtered_data)
-    chance = (match_ceos / total_ceos) * 100
-    return chance
+        filtered_data = dataset[dataset[key] == value]
+        total_ceos = len(dataset)
+        match_ceos = len(filtered_data)
+        if total_ceos > 0:  # Avoid division by zero
+            chance = (match_ceos / total_ceos) * 100
+            chances.append(chance)
+    
+    if len(chances) > 0:
+        average_chance = sum(chances) / len(chances)
+    else:
+        average_chance = 0
+    
+    return average_chance
 
 # Function to find the best scenario
 def find_best_scenario(dataset):
@@ -82,8 +90,8 @@ if selected == translate("Predictor"):
     user_data['الجامعة'] = st.selectbox(translate('University'), options=data['الجامعة'].unique())
     user_data['دولة التخرج'] = st.selectbox(translate('Graduation Country'), options=data['دولة التخرج'].unique())
     user_data['آخر مؤهل'] = st.selectbox(translate('Highest Qualification'), options=data['آخر مؤهل'].unique())
-    user_data['السنوات قبل التعيين'] = st.slider(translate('Years Before Appointment'), min_value=0, max_value=50, value=int(data['السنوات قبل التعيين'].mean()))
-    user_data['السنوات قبل التعيين في نفس الجهة'] = st.slider(translate('Years Before Appointment in the Same Entity'), min_value=0, max_value=50, value=int(data['السنوات قبل التعيين في نفس الجهة'].mean()))
+    user_data['السنوات قبل التعيين'] = st.slider(translate('Years Before Appointment'), min_value=0, max_value=50, value=21)
+    user_data['السنوات قبل التعيين في نفس الجهة'] = st.slider(translate('Years Before Appointment in the Same Entity'), min_value=0, max_value=50, value=0)
     user_data['النوع'] = st.selectbox(translate('Organization Type'), options=data['النوع'].unique())
     user_data['القطاع'] = st.selectbox(translate('Sector'), options=list(data['القطاع'].unique()) + [translate('Others')])
     user_data['اول تعيين له كرئيس تنفيذي؟'] = st.selectbox(translate('First Appointment as CEO?'), options=data['اول تعيين له كرئيس تنفيذي؟'].unique())
@@ -92,6 +100,7 @@ if selected == translate("Predictor"):
 
     # Calculate chance
     chance = calculate_ceo_chance(user_data, data)
+
     # Show the results in a donut chart (red)
     fig = px.pie(values=[chance, 100 - chance], names=[translate('Chance to be CEO'), translate('Others')], hole=.4, title=translate('Chance to be a CEO in the Future'))
     fig.update_traces(marker=dict(colors=['#FF6347', '#E5ECF6']))  # Red color for CEO chance
