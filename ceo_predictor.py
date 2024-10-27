@@ -94,7 +94,7 @@ if selected == translate("Predictor"):
     #user_data['السنوات قبل التعيين في نفس الجهة'] = st.slider(translate('Years Before Appointment in the Same Entity'), min_value=0, max_value=50, value=0)
     user_data['النوع'] = st.selectbox(translate('Organization Type'), options=data['النوع'].unique())
     user_data['القطاع'] = st.selectbox(translate('Sector'), options=list(data['القطاع'].unique()) + [translate('Others')])
-    user_data['اول تعيين له كرئيس تنفيذي؟'] = st.selectbox(translate('First Appointment as CEO?'), options=data['اول تعيين له كرئيس تنفيذي؟'].unique())
+    #user_data['اول تعيين له كرئيس تنفيذي؟'] = st.selectbox(translate('First Appointment as CEO?'), options=data['اول تعيين له كرئيس تنفيذي؟'].unique())
     user_data['اول جهة يعمل بها'] = st.selectbox(translate('First Organization'), options=list(data['اول جهة يعمل بها'].unique()) + [translate('Others')])
     user_data['أطول مدة جهة يعمل بها'] = st.selectbox(translate('Longest Duration in an Organization'), options=data['أطول مدة جهة يعمل بها'].unique())
 
@@ -115,7 +115,7 @@ if selected == translate("Predictor"):
     #years_before_appointment_same_entity_match = len(data[data['السنوات قبل التعيين في نفس الجهة'] == user_data['السنوات قبل التعيين في نفس الجهة']])
     gender_match = len(data[data['النوع'] == user_data['النوع']])
     sector_match = len(data[data['القطاع'] == user_data['القطاع']])
-    first_ceo_appointment_match = len(data[data['اول تعيين له كرئيس تنفيذي؟'] == user_data['اول تعيين له كرئيس تنفيذي؟']])
+    #first_ceo_appointment_match = len(data[data['اول تعيين له كرئيس تنفيذي؟'] == user_data['اول تعيين له كرئيس تنفيذي؟']])
     first_organization_match = len(data[data['اول جهة يعمل بها'] == user_data['اول جهة يعمل بها']])
     longest_duration_organization_match = len(data[data['أطول مدة جهة يعمل بها'] == user_data['أطول مدة جهة يعمل بها']])
 
@@ -167,10 +167,6 @@ if selected == translate("Predictor"):
         <div class="insight-card">
             <h3>{translate('Sector')}</h3>
             <p>{sector_match / total_ceos * 100:.2f}%</p>
-        </div>
-        <div class="insight-card">
-            <h3>{translate('First Appointment as CEO?')}</h3>
-            <p>{first_ceo_appointment_match / total_ceos * 100:.2f}%</p>
         </div>
         <div class="insight-card">
             <h3>{translate('First Organization')}</h3>
